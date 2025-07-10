@@ -25,7 +25,7 @@ load_dotenv()
 
 # --- CONFIGURATION ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-SUPABASE_CONNECTION_URI = os.getenv("SUPABASE_CONNECTION_URI") # New variable for the database
+SUPABASE_CONNECTION_URI = os.getenv("SUPABASE_CONNECTION_STRING") # New variable for the database
 
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
@@ -44,7 +44,7 @@ def get_db_connection():
         except Exception as e:
             print(f"Database connection attempt {attempt + 1} of {max_retries} failed: {e}")
             if attempt < max_retries - 1:
-                time.sleep()  # Wait for 3 seconds before retrying
+                time.sleep(5)  # Wait for 5 seconds before retrying
             else:
                 print("FATAL ERROR: Could not connect to the database after multiple retries.")
     return None
