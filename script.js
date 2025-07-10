@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastRunInfo = document.getElementById('last-run-info');
 
     // --- Data and Configuration ---
-    const API_BASE_URL = 'http://127.0.0.1:5002'; // The URL of our local Flask API
+    const API_BASE_URL = 'https://ai-competition-scout-api.onrender.com'; // The URL of our BE API in render
     const productLines = [
         "Push", "Email", "SMS", "WhatsApp", "RCS", "Other channels", "In-App", "OSM", "Cards","Content Management","Settings",
         "Flows", "Segmentation", "Data", "Partner Integrations", "Miscellaneous & Others", "ML or AI","Analyze","Campaign Management"
