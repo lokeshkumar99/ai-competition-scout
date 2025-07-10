@@ -2,9 +2,12 @@ import os
 import psycopg2
 from flask import Flask, jsonify, request
 from psycopg2.extras import RealDictCursor
+from flask_cors import CORS
 
 # Initialize Flask App
 app = Flask(__name__)
+
+CORS(app)
 
 # Get the database URL from Render's environment variables
 DATABASE_URL = os.environ.get('SUPABASE_CONNECTION_STRING')
