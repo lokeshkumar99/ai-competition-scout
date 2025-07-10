@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Competition Scout</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>AI Competition Scout</h1>
+        <p class="subtitle">Search for intelligence briefings by competitor or product line.</p>
+        <p id="last-run-info">Fetching latest data...</p>
+
+        <div class="search-form">
+            <select id="competitor-select">
+                <option value="All" selected>All Competitors</option>
+                <option value="Braze">Braze</option>
+                <option value="Iterable">Iterable</option>
+            </select>
+
+            <div class="custom-dropdown-container">
+                <input type="text" id="product-line-input" placeholder="Search for a Product Line...">
+                <div id="product-line-dropdown" class="dropdown-content">
+                    <!-- Dropdown items will be populated by JS -->
+                </div>
+            </div>
+
+            <button id="fetch-button">Fetch Intelligence</button>
+        </div>
+
+        <div id="results-container">
+            <!-- Intelligence briefings will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="script.js"></script>
+
+</body>
+</html>

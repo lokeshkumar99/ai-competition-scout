@@ -1,0 +1,12 @@
+# Ignore the file containing secrets
+.env
+
+# Ignore the local SQLite database
+scout_memory.db
+
+# Ignore Python virtual environment folder
+.venv/
+__pycache__/
+
+# Ignore PyCharm specific folders
+.idea/
