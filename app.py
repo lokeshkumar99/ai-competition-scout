@@ -1,80 +1,70 @@
-# Import necessary libraries
-from flask import Flask, jsonify, request
-import sqlite3
 import os
-# NEW: Import the CORS extension
-from flask_cors import CORS
+import psycopg2
+from flask import Flask, jsonify, request
+from psycopg2.extras import RealDictCursor
 
-# --- Configuration ---
-# Get the absolute path of the directory where this script is located
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Create a full, absolute path to the database file
-DB_FILE = os.path.join(BASE_DIR, "scout_memory.db")
-
-# --- Create the Flask Application ---
+# Initialize Flask App
 app = Flask(__name__)
-# NEW: Enable CORS for your entire Flask app.
-# This will allow your index.html file to make requests to the API.
-CORS(app)
+
+# Get the database URL from Render's environment variables
+DATABASE_URL = os.environ.get('SUPABASE_CONNECTION_STRING')
 
 
-# --- Helper Function to Query Database ---
-def query_db(query, args=(), one=False):
-    """A helper function to query the SQLite database and return results."""
-    # Check if the database file exists before trying to connect
-    if not os.path.exists(DB_FILE):
-        print(f"ERROR: Database file not found at {DB_FILE}")
-        return None
-    try:
-        with sqlite3.connect(DB_FILE) as conn:
-            conn.row_factory = sqlite3.Row
-            cur = conn.cursor()
-            cur.execute(query, args)
-            rv = cur.fetchall()
-            cur.close()
-            results = [dict(row) for row in rv]
-            return (results[0] if results else None) if one else results
-    except sqlite3.Error as e:
-        print(f"Database error: {e}")
-        return None
+def get_db_connection():
+    """Establishes a connection to the Supabase database."""
+    conn = psycopg2.connect(DATABASE_URL)
+    return conn
 
 
-# --- API Endpoints (Search Logic Corrected) ---
-
-@app.route('/api/briefings/search', methods=['GET'])
+@app.route('/api/briefings/search')
 def search_briefings():
     """
-    A flexible API endpoint to search for briefings.
-    It can filter by 'competitor', 'product_line', or both.
+    API endpoint to search for briefings with filters for competitor and product_line.
     """
+    # Get query parameters from the request URL
     competitor = request.args.get('competitor')
     product_line = request.args.get('product_line')
 
-    print(f"Search request received with params: competitor='{competitor}', product_line='{product_line}'")
+    conn = None
+    try:
+        conn = get_db_connection()
+        # Use RealDictCursor to get results as dictionaries (easily converted to JSON)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
 
-    query = "SELECT * FROM processed_items WHERE 1=1"
-    args = []
+        # Start building the SQL query
+        base_query = "SELECT * FROM briefings"
+        filters = []
+        params = []
 
-    # CORRECTED LOGIC: Use LOWER() for case-insensitive searching.
-    if competitor and competitor != 'All':
-        query += " AND LOWER(competitor) LIKE LOWER(?)"
-        args.append(f"%{competitor}%")
+        if competitor:
+            filters.append("competitor = %s")
+            params.append(competitor)
+        if product_line:
+            filters.append("product_line = %s")
+            params.append(product_line)
 
-    if product_line:
-        query += " AND LOWER(product_line) LIKE LOWER(?)"
-        args.append(f"%{product_line}%")
+        # Add filters to the base query if any exist
+        if filters:
+            base_query += " WHERE " + " AND ".join(filters)
 
-    query += " ORDER BY processed_at DESC"
+        # Add ordering to always show the newest first
+        base_query += " ORDER BY processed_at DESC"
 
-    briefings = query_db(query, tuple(args))
+        cursor.execute(base_query, tuple(params))
+        briefings = cursor.fetchall()
 
-    if briefings is None:
-        return jsonify({"error": "Database query failed or database file not found"}), 500
+        return jsonify(briefings)
 
-    return jsonify(briefings)
+    except Exception as e:
+        # Log the error to the console for debugging
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An internal server error occurred."}), 500
+    finally:
+        if conn:
+            conn.close()
 
 
-# --- Main execution block to run the app ---
-# --- Main execution block to run the app ---
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002, debug=True)
+# A simple root route to confirm the API is running
+@app.route('/')
+def index():
+    return "AI Competition Scout API is running."
