@@ -283,7 +283,7 @@ def get_iterable_prompt(context: str, competitor_name: str) -> str:
         -**Cards:** Features related to Iterable Cards, content cards, or similar card-based messaging and associated SDK updates.
         -**Content Management:** Features related to creating, managing, and reusing content across channels, such as Snippets, a central template manager, or landing page builders.
         -**Flows:** Features related to journey orchestration, visual workflows, or automation canvases.
-        -**Campaogn Management:** Channel-agnostic features for executing, measuring, and governing campaigns. This includes capabilities like global control groups, cross-channel performance reporting, or message archival for compliance. 
+        -**Campaign Management:** Channel-agnostic features for executing, measuring, and governing campaigns. This includes capabilities like global control groups, cross-channel performance reporting, or message archival for compliance. 
         -**Data:** Features related to data ingestion, management, architecture, and associated SDK updates.
         -**Segmentation:** Features related to audience creation, filtering, and predictive segmentation.
         -**Analyze:** Features related to product analytics, such as user behavior analysis, event funnels, retention charts, path analysis, and other reporting capabilities that directly compete with tools like Amplitude.
