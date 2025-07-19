@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Competition Scout</title>
-    <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="style.css">
+    <!-- Link to Google Fonts for the download icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
 
@@ -20,23 +21,27 @@
                 <option value="Braze">Braze</option>
                 <option value="Iterable">Iterable</option>
             </select>
-
             <div class="custom-dropdown-container">
                 <input type="text" id="product-line-input" placeholder="Search for a Product Line...">
-                <div id="product-line-dropdown" class="dropdown-content">
-                    <!-- Dropdown items will be populated by JS -->
-                </div>
+                <div id="product-line-dropdown" class="dropdown-content"></div>
             </div>
-
             <button id="fetch-button">Fetch Intelligence</button>
         </div>
 
-        <div id="results-container">
-            <!-- Intelligence briefings will be displayed here -->
+        <div id="controls-container" class="controls-container">
+            <div class="view-switcher">
+                <button id="view-cards-btn" class="view-btn active" title="Card View">🗂️ Cards</button>
+                <button id="view-table-btn" class="view-btn" title="Table View">📊 Table</button>
+            </div>
+            <!-- UPDATED: Button now uses a Material Symbols icon -->
+            <button id="download-csv-btn" class="download-btn" title="Download as CSV">
+                <span class="material-symbols-outlined">download</span>
+            </button>
         </div>
+
+        <div id="results-container"></div>
     </div>
 
-    <!-- Link to the external JavaScript file -->
     <script src="script.js"></script>
 
 </body>

@@ -3,14 +3,21 @@ import psycopg2
 from flask import Flask, jsonify, request
 from psycopg2.extras import RealDictCursor
 from flask_cors import CORS
+# NEW: Import dotenv to load local environment variables
+from dotenv import load_dotenv
 
-# Initialize Flask App
+# --- Load Environment Variables ---
+# This will load the variables from your .env file for local development
+load_dotenv()
+
+# --- Initialize Flask App ---
 app = Flask(__name__)
-
+# Enable CORS to allow your frontend to communicate with this API
 CORS(app)
 
-# Get the database URL from Render's environment variables
-DATABASE_URL = os.environ.get('SUPABASE_CONNECTION_STRING')
+# --- Configuration ---
+# Get the database URL from environment variables. Works locally and on Render.
+DATABASE_URL = os.getenv('SUPABASE_CONNECTION_URI')
 
 
 def get_db_connection():
@@ -71,3 +78,13 @@ def search_briefings():
 @app.route('/')
 def index():
     return "AI Competition Scout API is running."
+
+
+# Main execution block to run the app
+if __name__ == '__main__':
+    # Check if the essential database URL is present
+    if not DATABASE_URL:
+        print("FATAL ERROR: SUPABASE_CONNECTION_URI is not set in your .env file.")
+    else:
+        print("Starting Flask server...")
+        app.run(host='0.0.0.0', port=5001, debug=True)

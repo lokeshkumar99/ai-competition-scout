@@ -9,12 +9,12 @@ body {
 
 /* Main container for the application */
 .container {
-    max-width: 800px;
+    max-width: 1200px; /* Wider to accommodate table view */
     margin: 0 auto;
     background: #fff;
     padding: 20px 30px;
     border-radius: 8px;
-    box-shadow: 0 2px_10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -44,19 +44,15 @@ h1 {
     align-items: center;
 }
 
-#competitor-select {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    flex-grow: 1;
-    font-size: 16px;
-    background-color: #fff;
+@media (min-width: 768px) {
+    .search-form {
+        flex-wrap: nowrap;
+    }
 }
 
-/* Custom Dropdown Styles for Product Line Input */
-.custom-dropdown-container {
-    position: relative;
+#competitor-select, .custom-dropdown-container {
     flex-grow: 1;
+    flex-basis: 200px;
 }
 
 #product-line-input {
@@ -66,6 +62,19 @@ h1 {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
+}
+
+#competitor-select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+/* Custom Dropdown Styles */
+.custom-dropdown-container {
+    position: relative;
 }
 
 .dropdown-content {
@@ -93,7 +102,7 @@ h1 {
     background-color: #f1f1f1;
 }
 
-/* Button Styles */
+/* Fetch Button Styles */
 #fetch-button {
     padding: 12px 25px;
     background-color: #007bff;
@@ -103,30 +112,93 @@ h1 {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.2s;
+    flex-shrink: 0;
 }
 
 #fetch-button:hover {
     background-color: #0056b3;
 }
 
-#fetch-button.loading {
-    background-color: #0056b3;
-    cursor: wait;
+/* Controls Container for Buttons */
+.controls-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
 }
 
-#fetch-button.loading::after {
-    content: '...';
-    display: inline-block;
-    animation: loading-dots 1s infinite;
+/* View Switcher as Grouped Buttons */
+.view-switcher {
+    display: flex;
 }
 
-@keyframes loading-dots {
-    0%, 20% { content: '.'; }
-    40% { content: '..'; }
-    60%, 100% { content: '...'; }
+.view-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-/* Briefing Card Styles */
+#view-cards-btn {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+#view-table-btn {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: none;
+}
+
+.view-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.view-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    z-index: 2;
+}
+
+/* --- UPDATED: Download Button as Icon Button --- */
+.download-btn {
+    background-color: transparent;
+    border: 1px solid transparent; /* Prevents layout shift on hover */
+    color: #007bff;
+    cursor: pointer;
+    padding: 0; /* Remove padding to size based on width/height */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the icon */
+    border-radius: 50%; /* Makes the button circular */
+    width: 36px;  /* Fixed width */
+    height: 36px; /* Fixed height */
+    transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+    border-color: #ddd;
+}
+
+.download-btn:disabled {
+    color: #a0a0a0;
+    cursor: not-allowed;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+/* Vertically align the icon and remove margin */
+.download-btn .material-symbols-outlined {
+    font-size: 20px;
+    margin-right: 0; /* No longer needed */
+}
+
+
+/* --- Briefing Card & Table Styles (Unchanged) --- */
 .briefing-card {
     background: #fdfdfd;
     border: 1px solid #eee;
@@ -160,5 +232,47 @@ h1 {
 }
 
 .briefing-card a:hover {
+    text-decoration: underline;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+#results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#results-table th, #results-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+}
+
+#results-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+#results-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#results-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#results-table a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#results-table a:hover {
     text-decoration: underline;
 }
