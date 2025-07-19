@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const controlsContainer = document.getElementById('controls-container');
 
     // --- Data and Configuration ---
-    const API_BASE_URL = 'http://127.0.0.1:5001'; // Your local Flask API URL
+    const API_BASE_URL = 'https://ai-competition-scout-api.onrender.com'; // Your local Flask API URL
     const productLines = [
         "Push", "Email", "SMS", "WhatsApp", "RCS", "Other channels", "In-App", "OSM", "Cards",
         "Web Personalization (WebP)", "Content Management", "Settings", "Flows", "Segmentation",
