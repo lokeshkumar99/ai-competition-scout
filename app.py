@@ -17,7 +17,7 @@ CORS(app)
 
 # --- Configuration ---
 # Get the database URL from environment variables. Works locally and on Render.
-DATABASE_URL = os.getenv('SUPABASE_CONNECTION_URI')
+DATABASE_URL = os.getenv('SUPABASE_CONNECTION_STRING')
 
 
 def get_db_connection():
